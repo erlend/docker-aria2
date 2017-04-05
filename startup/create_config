@@ -1,0 +1,13 @@
+#!/bin/sh
+
+config_file=/config/aria2.conf
+if [ ! -f $config_file ]; then
+  echo 'Creating Aria2 config file...'
+  mkdir -p `dirname $config_file`
+  cp /etc/aria2.conf $config_file
+fi
+
+aria_config_path=/home/aria2/.aria2
+if [ ! -L $aria_config_path ]; then
+  ln -s /config $aria_config_path
+fi

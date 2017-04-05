@@ -1,0 +1,17 @@
+#!/bin/sh
+
+grep -q aria2 /etc/group
+if [ $? > 0 ]; then
+  echo "Creating 'aria2' group with id '$ARIA2_GID'..."
+  addgroup -g $ARIA2_GID aria2
+  created_group=1
+fi
+
+grep -q aria2 /etc/passwd
+if [ $? > 0 ]; then
+  echo 'Creating 'aria2' user with id '$ARIA2_UID'...'
+  adduser -G aria2 -u $ARIA2_UID -D aria2
+elif [ $created_group ]; then
+  echo 'Adding `aria2` user to `aria2` group'
+  addgroup aria2 aria2
+fi

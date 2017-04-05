@@ -1,0 +1,18 @@
+#!/bin/sh
+
+ssl_dir=/config/cert
+ssl_key=$ssl_dir/server.key
+ssl_crt=$ssl_dir/server.crt
+
+if [ ! -f $ssl_crt ] || [ ! -f $ssl_key ]; then
+  echo 'Generating self-signed certificate...'
+  mkdir -p $ssl_dir
+  openssl req \
+    -x509 \
+    -nodes \
+    -days 365 \
+    -newkey rsa:2048 \
+    -keyout $ssl_key \
+    -out $ssl_crt \
+    -batch
+fi
